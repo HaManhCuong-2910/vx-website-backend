@@ -2,6 +2,11 @@ import {
   Body,
   Controller,
   Post,
+  Get,
+  Query,
+  Param,
+  Put,
+  Delete,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
@@ -9,6 +14,7 @@ import { NewsService } from './news.service';
 import { CreateNewsDto } from './dto/createNews.dto';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { storageConfig } from 'src/config/storage.config';
+import { DeleteNewsDto, UpdateNewsDto } from './dto/updateNews.dto';
 
 @Controller('news')
 export class NewsController {
@@ -21,5 +27,31 @@ export class NewsController {
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
     return await this.newsService.createNews(body, files);
+  }
+
+  @Get('/list')
+  async getList(@Query() query: any) {
+    return this.newsService.getList(query);
+  }
+
+  @Get('/:id/detail')
+  async getDetailNews(@Param('id') id: string) {
+    return this.newsService.getDetailNews(id);
+  }
+
+  @Put('/update')
+  async updateNews(@Body() data: UpdateNewsDto) {
+    return this.newsService.updateNews(data);
+  }
+
+  @Post('/upload')
+  @UseInterceptors(AnyFilesInterceptor(storageConfig))
+  async uploadFileImages(@UploadedFiles() files: Array<Express.Multer.File>) {
+    return this.newsService.uploadFileImages(files);
+  }
+
+  @Delete('/:id/delete')
+  async deleteNews(@Param() params: DeleteNewsDto) {
+    return this.newsService.deleteNews(params);
   }
 }

@@ -17,3 +17,12 @@ export const storageConfig = {
     },
   }),
 };
+
+export const storageConfigFile = {
+  storage: diskStorage({
+    destination: join(__dirname, '..', '..', 'public/files'),
+    filename: (req, file, cb) => {
+      cb(null, file.originalname);
+    },
+  }),
+};

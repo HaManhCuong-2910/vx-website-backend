@@ -6,7 +6,7 @@ const newSchema = new Schema(
       type: String,
       require: true,
     },
-    img: {
+    imgs: {
       type: Array,
       require: true,
     },
@@ -26,6 +26,7 @@ const newSchema = new Schema(
   {
     timestamps: true,
     collection: 'news',
+    versionKey: false,
   },
 );
 
@@ -34,7 +35,7 @@ export { newSchema };
 export interface News extends Document {
   tag: string;
 
-  img: string[];
+  imgs: string[];
 
   title: string;
 
