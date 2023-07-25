@@ -3,7 +3,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { MailContactDto } from './dto/mailContact.dto';
 import { MailApplyDto } from './dto/mailApply.dto';
 import { Request } from 'express';
-
+import { unlinkSync } from 'fs';
+import { join } from 'path';
 @Injectable()
 export class MailService {
   defaultEmail = 'hamanhcuong.gaapnow@gmail.com';
@@ -49,6 +50,10 @@ export class MailService {
     }
   }
 
+  private getUploadFolderPath() {
+    return join(__dirname, '..', '..', 'public', 'files');
+  }
+
   async sendMailApply(
     body: MailApplyDto,
     files: Array<Express.Multer.File>,
@@ -57,8 +62,9 @@ export class MailService {
     //send mail apply
     try {
       console.log('body', body);
+      const dest = `${this.getUploadFolderPath()}`;
       const domain = `${req.protocol}://${req.get('Host')}`;
-      let attachFiles =
+      const attachFiles =
         files.length > 0
           ? files.map((item) => {
               return {
@@ -76,6 +82,12 @@ export class MailService {
         },
         attachments: attachFiles,
       });
+      if (attachFiles.length > 0) {
+        attachFiles.map((image: any) => {
+          console.log('join(dest, image.filename)', join(dest, image.filename));
+          unlinkSync(join(dest, image.filename));
+        });
+      }
 
       return {
         status: HttpStatus.OK,
