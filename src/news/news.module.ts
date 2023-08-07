@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { NewsService } from './news.service';
 import { NewsController } from './news.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -6,6 +11,8 @@ import { newSchema } from './model/news.model';
 import { join } from 'path';
 import { MulterModule } from '@nestjs/platform-express';
 import { NewsRepository } from './repository/news.repository';
+import { AuthMiddleware } from 'src/middleware/auth.middleware';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -20,6 +27,16 @@ import { NewsRepository } from './repository/news.repository';
     }),
   ],
   controllers: [NewsController],
-  providers: [NewsService, NewsRepository],
+  providers: [NewsService, NewsRepository, JwtService],
 })
-export class NewsModule {}
+export class NewsModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(
+        { path: '/news/create', method: RequestMethod.POST },
+        { path: '/news/update', method: RequestMethod.PUT },
+        { path: '/news/:id/delete', method: RequestMethod.DELETE },
+      );
+  }
+}

@@ -16,3 +16,18 @@ export const randomNumberCustomLength = (length: number) => {
 };
 
 export const MAX_FILE_SIZE = 300000; //300 KB
+
+export enum EStatusAccount {
+  ACTIVE = 'ACTIVE',
+  LOCK = 'LOCK',
+}
+
+export const saltOrRounds = 10;
+
+export const filterAccount = (user: any) => {
+  return {
+    id: `${user._id || user.id}`,
+    status: user.status,
+    roles: user.roles,
+  };
+};
