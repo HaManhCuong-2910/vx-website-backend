@@ -40,8 +40,12 @@ export class NewsController {
   }
 
   @Put('/update')
-  async updateNews(@Body() data: UpdateNewsDto) {
-    return this.newsService.updateNews(data);
+  @UseInterceptors(AnyFilesInterceptor(storageConfig))
+  async updateNews(
+    @Body() data: UpdateNewsDto,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ) {
+    return this.newsService.updateNews(data, files);
   }
 
   @Post('/upload')

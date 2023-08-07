@@ -12,7 +12,10 @@ export class NewsService {
     const imgs = files.map((item) => {
       return `/public/images/${item.originalname}`;
     });
-    const dataCreate = { ...dtoNews, imgs };
+    const dataCreate = {
+      ...dtoNews,
+      imgs: imgs[0],
+    };
     const result = await this.newsRepository
       .create(dataCreate)
       .then((newNews) => {
@@ -32,20 +35,29 @@ export class NewsService {
   }
 
   async getList(query: any) {
-    const { page = 1, limit = 10, tag, title } = query;
+    const { page = 1, limit = 10, tag, title, fromDate, toDate } = query;
 
     const skip = Number(limit) * Number(page) - Number(limit);
     let queryTag = {},
-      queryTitle = {};
+      queryTitle = {},
+      queryDate = {};
     if (tag) {
-      queryTag = { author: { $regex: tag, $options: 'i' } };
+      queryTag = { tag: { $regex: tag, $options: 'i' } };
     }
     if (title) {
       queryTitle = { title: { $regex: title, $options: 'i' } };
     }
+    if (fromDate && toDate) {
+      queryDate = {
+        createdAt: {
+          $gte: new Date(fromDate),
+          $lt: new Date(toDate),
+        },
+      };
+    }
     const result = await this.newsRepository.getByCondition(
       {
-        $and: [queryTag, queryTitle],
+        $and: [queryTag, queryTitle, queryDate],
       },
       undefined,
       {
@@ -95,11 +107,16 @@ export class NewsService {
     };
   }
 
-  async updateNews(data: UpdateNewsDto) {
+  async updateNews(data: UpdateNewsDto, files: Array<Express.Multer.File>) {
     const { _id, ...updateDtoData } = data;
-
+    const imgs = files.map((item) => {
+      return `/public/images/${item.originalname}`;
+    });
     const updateDataResponse = await this.newsRepository
-      .findByIdAndUpdate(_id, updateDtoData)
+      .findByIdAndUpdate(_id, {
+        ...updateDtoData,
+        imgs: imgs.length > 0 ? imgs[0] : updateDtoData.imgs,
+      })
       .then((res) => {
         return {
           status: HttpStatus.OK,
