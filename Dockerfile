@@ -20,6 +20,7 @@ ENV PORT=2080
 ENV DATABASE_URL="mongodb+srv://cuonghm:vanha110100@cluster0.e74cvwr.mongodb.net/vx-database?retryWrites=true&w=majority"
 ENV MAIL_SERVICE_USER="cuonghamanhcuong12@gmail.com"
 ENV MAIL_SERVICE_PASS="uohszegpljkaxbjt"
+ENV JWT_SECRET="~!vx-website"
 
 EXPOSE 8080
 
