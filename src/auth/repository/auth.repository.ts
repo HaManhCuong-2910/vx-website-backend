@@ -2,7 +2,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BaseRepository } from 'src/base/base.repository';
 import { JwtService } from '@nestjs/jwt';
-import { UnauthorizedException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { EStatusAccount, filterAccount } from 'src/common/common';
 import * as bcrypt from 'bcrypt';
 import { Account } from '../models/account.model';
@@ -23,13 +27,21 @@ export class AuthRepository extends BaseRepository<Account> {
       const isMatchPassword = await bcrypt.compare(pass, user.password);
       const isActiveAccount = status === EStatusAccount.ACTIVE;
 
-      if (isMatchPassword && isActiveAccount) {
-        delete user.password;
-        return user;
+      if (!isMatchPassword) {
+        throw new HttpException(
+          'Mật khẩu không chính xác',
+          HttpStatus.UNAUTHORIZED,
+        );
       }
-      throw new UnauthorizedException();
+
+      if (!isActiveAccount) {
+        throw new HttpException('Tài khoản bị khóa', HttpStatus.UNAUTHORIZED);
+      }
+
+      delete user.password;
+      return user;
     }
-    throw new UnauthorizedException();
+    throw new HttpException('Tài khoản không tồn tại', HttpStatus.UNAUTHORIZED);
   }
 
   generate_access_token(user: any) {

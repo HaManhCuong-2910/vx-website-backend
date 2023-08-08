@@ -27,7 +27,7 @@ export class AuthService {
         filterAccount(resultLogin),
       );
       return {
-        status: HttpStatus.ACCEPTED,
+        status: HttpStatus.OK,
         access_token,
         user: resultLogin,
       };
