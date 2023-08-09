@@ -17,11 +17,6 @@ import { Request } from 'express';
 export class MailController {
   constructor(private readonly mailService: MailService) {}
 
-  @Post('/send')
-  async sendMail(@Body() body: any) {
-    return await this.mailService.sendMail(body);
-  }
-
   @Post('/send-mail-contact')
   async sendMailContact(@Body() body: MailContactDto) {
     return await this.mailService.sendMailContact(body);

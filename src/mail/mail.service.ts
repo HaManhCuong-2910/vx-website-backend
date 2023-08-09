@@ -11,21 +11,6 @@ export class MailService {
 
   constructor(private mailerService: MailerService) {}
 
-  async sendMail(body: any) {
-    //send mail
-    await this.mailerService.sendMail({
-      to: this.defaultEmail,
-      subject: 'Test mail handlebars',
-      template: './request', // `.hbs` extension is appended automatically
-      context: {
-        // ✏️ filling curly brackets with content
-        name: 'Cường kum',
-      },
-    });
-
-    return body;
-  }
-
   async sendMailContact(body: MailContactDto) {
     //send mail contract
     try {
@@ -61,7 +46,6 @@ export class MailService {
   ) {
     //send mail apply
     try {
-      console.log('body', body);
       const dest = `${this.getUploadFolderPath()}`;
       const domain = `${req.protocol}://${req.get('Host')}`;
       const attachFiles =
@@ -84,7 +68,6 @@ export class MailService {
       });
       if (attachFiles.length > 0) {
         attachFiles.map((image: any) => {
-          console.log('join(dest, image.filename)', join(dest, image.filename));
           unlinkSync(join(dest, image.filename));
         });
       }
