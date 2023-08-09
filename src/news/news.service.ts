@@ -34,6 +34,14 @@ export class NewsService {
     return result;
   }
 
+  async getListFilter() {
+    const result = await this.newsRepository.searchExitsTag();
+    return {
+      status: HttpStatus.OK,
+      data: result,
+    };
+  }
+
   async getList(query: any) {
     const { page = 1, limit = 10, tag, title, fromDate, toDate } = query;
 

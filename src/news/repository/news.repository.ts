@@ -17,4 +17,8 @@ export class NewsRepository extends BaseRepository<News> {
   async countDocuments(filter) {
     return this.newsModel.countDocuments(filter);
   }
+
+  async searchExitsTag() {
+    return await this.newsModel.distinct('tag');
+  }
 }

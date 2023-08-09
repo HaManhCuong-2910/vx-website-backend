@@ -34,6 +34,11 @@ export class NewsController {
     return this.newsService.getList(query);
   }
 
+  @Get('/list-filter')
+  async getListFilter() {
+    return this.newsService.getListFilter();
+  }
+
   @Get('/:id/detail')
   async getDetailNews(@Param('id') id: string) {
     return this.newsService.getDetailNews(id);
