@@ -1,9 +1,13 @@
 import { Schema } from 'mongoose';
-
 const newSchema = new Schema(
   {
     tag: {
       type: String,
+      require: true,
+    },
+    isOutstanding: {
+      type: Boolean,
+      default: false,
       require: true,
     },
     imgs: {
@@ -34,6 +38,8 @@ export { newSchema };
 
 export interface News extends Document {
   tag: string;
+
+  isOutstanding: boolean;
 
   imgs: string;
 

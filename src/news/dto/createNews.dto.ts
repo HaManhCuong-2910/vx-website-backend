@@ -4,6 +4,7 @@ import {
   IsBoolean,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
@@ -29,4 +30,8 @@ export class CreateNewsDto extends BaseDto {
   @IsString()
   @Expose()
   description: string;
+
+  @IsOptional()
+  @Expose()
+  isOutstanding: boolean;
 }

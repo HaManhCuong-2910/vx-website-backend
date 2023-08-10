@@ -21,6 +21,9 @@ export class OptionalNewsDto extends BaseDto {
   short_description: string;
 
   @IsOptional()
+  isOutstanding: boolean;
+
+  @IsOptional()
   @IsString()
   description: string;
 }
