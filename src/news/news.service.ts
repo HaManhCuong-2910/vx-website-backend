@@ -42,8 +42,23 @@ export class NewsService {
     };
   }
 
+  async getRandomListNews(size: string) {
+    const res = await this.newsRepository.getRandom(size);
+    return {
+      data: res,
+    };
+  }
+
   async getList(query: any) {
-    const { page = 1, limit = 10, tag, title, fromDate, toDate } = query;
+    const {
+      page = 1,
+      limit = 10,
+      tag,
+      title,
+      fromDate,
+      toDate,
+      ...filter
+    } = query;
 
     const skip = Number(limit) * Number(page) - Number(limit);
     let queryTag = {},
@@ -65,7 +80,7 @@ export class NewsService {
     }
     const result = await this.newsRepository.getByCondition(
       {
-        $and: [queryTag, queryTitle, queryDate],
+        $and: [queryTag, queryTitle, queryDate, filter],
       },
       undefined,
       {
@@ -77,6 +92,8 @@ export class NewsService {
     const countRecord = await this.newsRepository.countDocuments({
       ...queryTag,
       ...queryTitle,
+      ...queryDate,
+      ...filter,
     });
 
     return {

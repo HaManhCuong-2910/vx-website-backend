@@ -21,4 +21,8 @@ export class NewsRepository extends BaseRepository<News> {
   async searchExitsTag() {
     return await this.newsModel.distinct('tag');
   }
+
+  async getRandom(size: string) {
+    return this.newsModel.aggregate([{ $sample: { size: Number(size) } }]);
+  }
 }

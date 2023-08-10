@@ -34,6 +34,11 @@ export class NewsController {
     return this.newsService.getList(query);
   }
 
+  @Get('/random-list')
+  async getRandomListNews(@Query('size') size: string) {
+    return await this.newsService.getRandomListNews(size);
+  }
+
   @Get('/list-filter')
   async getListFilter() {
     return this.newsService.getListFilter();
