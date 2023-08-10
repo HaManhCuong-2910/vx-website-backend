@@ -15,7 +15,7 @@ export const randomNumberCustomLength = (length: number) => {
   );
 };
 
-export const MAX_FILE_SIZE = 300000; //300 KB
+export const MAX_FILE_SIZE = 500000; //500 KB
 
 export enum EStatusAccount {
   ACTIVE = 'ACTIVE',
