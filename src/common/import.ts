@@ -7,6 +7,7 @@ import { MailModule } from 'src/mail/mail.module';
 import { NewsModule } from 'src/news/news.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { jwtDefaultConfig } from 'src/config/jwt.config';
+import { StaffModule } from 'src/staff/staff.module';
 export const importApp = [
   ...jwtDefaultConfig,
   ...connectDataBase,
@@ -19,4 +20,5 @@ export const importApp = [
   AuthModule,
   ScheduleModule.forRoot(),
   NewsModule,
+  StaffModule,
 ];
