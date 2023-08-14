@@ -4,11 +4,19 @@ import { BaseDto } from 'src/base/base.dto';
 export class OptionalStaffDto extends BaseDto {
   @IsOptional()
   @IsString()
-  limit: string;
+  limit: number;
 
   @IsOptional()
   @IsString()
-  page: string;
+  page: number;
+
+  @IsOptional()
+  @IsString()
+  fromDate: string;
+
+  @IsOptional()
+  @IsString()
+  toDate: string;
 
   @IsOptional()
   @IsString()
@@ -27,10 +35,4 @@ export class UpdateStaffDto extends OptionalStaffDto {
   @IsNotEmpty()
   @IsString()
   _id: string;
-}
-
-export class DeleteStaffDto extends BaseDto {
-  @IsNotEmpty()
-  @IsString()
-  id: string;
 }

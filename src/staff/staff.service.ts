@@ -75,15 +75,63 @@ export class StaffService {
   }
 
   async getList(query: OptionalStaffDto) {
-    const { page = 1, limit = 10, ...filter } = query;
+    const { page = 1, limit = 10, fromDate, toDate, ...filter } = query;
     const querySearch = [];
+    let queryDate = {};
+
+    const skip = Number(limit) * Number(page) - Number(limit);
 
     Object.keys(filter).map((key: string) => {
       return (querySearch[key] = searchString(filter[key]));
     });
 
-    console.log('querySearch', querySearch);
+    if (fromDate && toDate) {
+      queryDate = {
+        createdAt: {
+          $gte: new Date(fromDate),
+          $lt: new Date(toDate),
+        },
+      };
+    }
+    const result = await this.staffRepository.getByCondition(
+      {
+        $and: [{ ...querySearch }, queryDate],
+      },
+      undefined,
+      {
+        skip,
+        limit,
+        sort: { updatedAt: -1 },
+      },
+    );
 
-    return 'ok';
+    const countRecord = await this.staffRepository.countDocuments({
+      ...querySearch,
+      ...queryDate,
+    });
+
+    return {
+      data: result,
+      page: Number(page),
+      countRecord: countRecord,
+      count: Math.ceil(countRecord / limit),
+    };
+  }
+
+  async deleteStaff(id: string) {
+    return await this.staffRepository
+      .deleteOne(id)
+      .then((res) => {
+        return {
+          status: HttpStatus.OK,
+          data: res,
+        };
+      })
+      .catch((error) => {
+        return {
+          status: HttpStatus.BAD_REQUEST,
+          data: error,
+        };
+      });
   }
 }
