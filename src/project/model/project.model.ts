@@ -9,6 +9,18 @@ const projectSchema = new Schema(
       type: String,
       require: true,
     },
+    font_title_large: {
+      type: String,
+      require: true,
+    },
+    size_desktop: {
+      type: Number,
+      require: true,
+    },
+    size_mobile: {
+      type: Number,
+      require: true,
+    },
     title_short: {
       type: String,
       require: true,
@@ -31,6 +43,12 @@ export interface Project extends Document {
   image: string;
 
   title_large: string;
+
+  font_title_large: string;
+
+  size_desktop: number;
+
+  size_mobile: string;
 
   title_short: string;
 

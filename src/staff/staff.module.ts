@@ -31,6 +31,12 @@ import { JwtService } from '@nestjs/jwt';
 })
 export class StaffModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(StaffController);
+    consumer
+      .apply(AuthMiddleware)
+      .exclude({
+        path: 'staff/list',
+        method: RequestMethod.GET,
+      })
+      .forRoutes(StaffController);
   }
 }

@@ -11,7 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { storageConfig, storageConfigStaff } from 'src/config/storage.config';
+import { storageConfigStaff } from 'src/config/storage.config';
 import { StaffService } from './staff.service';
 import { CreateStaffDto } from './dto/createStaff.dto';
 import { OptionalStaffDto, UpdateStaffDto } from './dto/optionStaff.dto';
