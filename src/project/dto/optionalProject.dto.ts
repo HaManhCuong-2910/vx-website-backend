@@ -20,6 +20,14 @@ export class OptionalProjectDto extends BaseDto {
 
   @IsOptional()
   @IsString()
+  position_desktop: string;
+
+  @IsOptional()
+  @IsString()
+  position_mobile: string;
+
+  @IsOptional()
+  @IsString()
   size_desktop: string | number;
 
   @IsOptional()

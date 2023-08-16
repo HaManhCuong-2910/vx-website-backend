@@ -13,6 +13,14 @@ const projectSchema = new Schema(
       type: String,
       require: true,
     },
+    position_desktop: {
+      type: String,
+      require: true,
+    },
+    position_mobile: {
+      type: String,
+      require: true,
+    },
     size_desktop: {
       type: Number,
       require: true,
@@ -45,6 +53,10 @@ export interface Project extends Document {
   title_large: string;
 
   font_title_large: string;
+
+  position_desktop: string;
+
+  position_mobile: string;
 
   size_desktop: number;
 

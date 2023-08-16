@@ -26,6 +26,16 @@ export class RequireProjectDto extends BaseDto {
   @IsNotEmpty()
   @IsString()
   @Expose()
+  position_desktop: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Expose()
+  position_mobile: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Expose()
   size_desktop: string;
 
   @IsNotEmpty()
