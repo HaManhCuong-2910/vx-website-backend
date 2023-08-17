@@ -175,5 +175,9 @@ export class NewsService {
       });
   }
 
-  async clearImageTrash() {}
+  async clearImageTrash() {
+    const listImagesNews = await this.newsRepository.searchExitsImages();
+    console.log('listImagesNews', listImagesNews);
+    return 'test';
+  }
 }

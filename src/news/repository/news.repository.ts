@@ -25,4 +25,8 @@ export class NewsRepository extends BaseRepository<News> {
   async getRandom(size: string) {
     return this.newsModel.aggregate([{ $sample: { size: Number(size) } }]);
   }
+
+  async searchExitsImages() {
+    return await this.newsModel.distinct('imgs');
+  }
 }

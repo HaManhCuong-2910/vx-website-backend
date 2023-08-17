@@ -28,6 +28,7 @@ import { JwtService } from '@nestjs/jwt';
   ],
   controllers: [NewsController],
   providers: [NewsService, NewsRepository, JwtService],
+  exports: [NewsService, NewsRepository],
 })
 export class NewsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
