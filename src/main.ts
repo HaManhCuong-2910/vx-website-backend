@@ -11,6 +11,7 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
+  app.setGlobalPrefix('v2');
 
   await app.listen(port, () => {
     console.log(`app listen http://localhost:${port}`);

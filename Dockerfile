@@ -1,5 +1,5 @@
 # Base image
-FROM node:16-alpine
+FROM node:18-alpine
 # Create app directory
 WORKDIR /app
 
@@ -22,7 +22,7 @@ ENV MAIL_SERVICE_USER="cuonghamanhcuong12@gmail.com"
 ENV MAIL_SERVICE_PASS="uohszegpljkaxbjt"
 ENV JWT_SECRET="~!vx-website"
 
-EXPOSE 8080
+EXPOSE 2080
 
 
 # Start the server using the production build
